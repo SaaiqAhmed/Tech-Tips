@@ -60,5 +60,12 @@ on your TV!
         2. [TVDB API Sign Up](https://www.thetvdb.com/api-information/signup)
         3. [TOP Posters API](https://api.top-streaming.stream/user/dashboard)
         4. [Gemini Free API](https://aistudio.google.com/api-keys) (Should be under the Project **Default Gemini Project**)
-5. Now head over to [AIOStreams](https://aiostreamsfortheweebsstable.midnightignite.me/stremio/configure) and select **Advanced** mode
-6.  
+5. Download the [Config file](https://github.com/SaaiqAhmed/Tech-Tips/blob/main/src/content/saaiq-aiostreams-config-02-2026.json) 
+6. Now head over to [AIOStreams](https://aiostreamsfortheweebsstable.midnightignite.me/stremio/configure) and select **Advanced** mode
+7. Click the **Save** icon on the left >> Click Import >> Import the config file
+8. **[Adding Services to AIOStreams]**
+    1. Click the **Cloud** icon on the left
+    2. Click the Settings button for the Debrid service you chose and add the API key
+    3. Change Poster Service from **RPDB** to **TOP Poster**
+    4. Add API keys for **TOP Poster**, **TMDB Read Access Token**, **TMDB API Key** & **TVDB API Key**
+9.  

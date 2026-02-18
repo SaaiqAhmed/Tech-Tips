@@ -118,7 +118,7 @@ export default function MarkdownRenderer({ content, t, dark }) {
       /* ── Paragraph ─────────────────────────────────────────────────────── */
       case 'p':
         return (
-          <p key={idx} style={{ margin: '0.75rem 0', lineHeight: 1.8, color: t.text }}>
+          <p key={idx} style={{ margin: '0.75rem 0', lineHeight: 1.8, color: t.text, textAlign: 'justify' }}>
             <InlineContent text={block.content} t={t} />
           </p>
         )

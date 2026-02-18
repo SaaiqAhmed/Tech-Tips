@@ -1,6 +1,6 @@
 # Saaiq's Tech Tips
 
-A fast, modern wiki site for streaming, self-hosting, applications, and miscellaneous tech tips — built with React + Vite, zero external UI libraries.
+Built with React + Vite, Vibe coded with claude.
 
 ---
 
