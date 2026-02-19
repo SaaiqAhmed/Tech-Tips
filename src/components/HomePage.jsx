@@ -2,10 +2,10 @@ import { FONTS } from '../theme.js'
 import AnimatedBackground from './AnimatedBackground.jsx'
 
 const TOPICS = [
-  { key: 'streaming',     label: '📺 Streaming',      desc: 'Media servers & remote access' },
-  { key: 'selfhosting',   label: '🖥 Self Hosting',    desc: 'Run your own services'         },
-  { key: 'applications',  label: '🛠 Applications',    desc: 'Tools worth your time'         },
-  { key: 'miscellaneous', label: '🧩 Miscellaneous',   desc: 'Tips, tricks & one-liners'     },
+  { key: 'streaming', label: '📺 Streaming', desc: 'Setup streaming movies & shows' },
+  { key: 'selfhosting', label: '🖥 Self Hosting', desc: 'Run your own services' },
+  { key: 'torrenting',  label: '🛠 Torrenting', desc: 'All the tips & tools to start torrenting' },
+  { key: 'miscellaneous', label: '🧩 Miscellaneous', desc: 'Tips, tricks & one-liners' },
 ]
 
 /**

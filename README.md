@@ -8,36 +8,36 @@ Built with React + Vite, Vibe coded with claude.
 
 ```
 saaiq-tech-tips/
-├── index.html                    ← Entry HTML (loads fonts, mounts #root)
+├── index.html                     ← Entry HTML (loads fonts, mounts #root)
 ├── package.json
 ├── vite.config.js
 │
 └── src/
-    ├── main.jsx                  ← React entry point; injects global CSS
-    ├── App.jsx                   ← Root: routing + theme state
-    ├── theme.js                  ← All colour tokens + font constants (THEME, SYN, FONTS)
+    ├── main.jsx                   ← React entry point; injects global CSS
+    ├── App.jsx                    ← Root: routing + theme state
+    ├── theme.js                   ← All colour tokens + font constants (THEME, SYN, FONTS)
     │
-    ├── content/                  ← Raw markdown articles (one per wiki page)
+    ├── content/                   ← Raw markdown articles (one per wiki page)
     │   ├── streaming.md
     │   ├── selfhosting.md
-    │   ├── applications.md
+    │   ├── torrenting.md
     │   └── miscellaneous.md
     │
     ├── utils/
-    │   ├── markdown.js           ← Block + inline markdown parser (no deps)
-    │   └── syntax.js             ← Regex-based syntax highlighter tokeniser
+    │   ├── markdown.js            ← Block + inline markdown parser (no deps)
+    │   └── syntax.js              ← Regex-based syntax highlighter tokeniser
     │
     └── components/
-        ├── Header.jsx            ← Sticky header with nav + theme toggle
-        ├── Footer.jsx            ← Simple footer
-        ├── HomePage.jsx          ← Hero landing page with animated background
-        ├── WikiPage.jsx          ← Article page: skeleton → markdown render
-        ├── TableOfContents.jsx   ← Collapsible floating ToC sidebar
-        ├── MarkdownRenderer.jsx  ← Renders parsed blocks → themed JSX
-        ├── CodeBlock.jsx         ← Syntax-highlighted fenced code
-        ├── InlineContent.jsx     ← Bold, italic, inline-code, links
-        ├── AnimatedBackground.jsx← Canvas particles + CSS gradient orbs
-        └── SkeletonLoader.jsx    ← Shimmer placeholder while page loads
+        ├── Header.jsx             ← Sticky header with nav + theme toggle
+        ├── Footer.jsx             ← Simple footer
+        ├── HomePage.jsx           ← Hero landing page with animated background
+        ├── WikiPage.jsx           ← Article page: skeleton → markdown render
+        ├── TableOfContents.jsx    ← Collapsible floating ToC sidebar
+        ├── MarkdownRenderer.jsx   ← Renders parsed blocks → themed JSX
+        ├── CodeBlock.jsx          ← Syntax-highlighted fenced code
+        ├── InlineContent.jsx      ← Bold, italic, inline-code, links
+        ├── AnimatedBackground.jsx ← Canvas particles + CSS gradient orbs
+        └── SkeletonLoader.jsx     ← Shimmer placeholder while page loads
 ```
 
 ---
@@ -100,7 +100,7 @@ Each wiki page maps to a plain Markdown file in `src/content/`:
 |----------------|---------------------------------|
 | Streaming      | `src/content/streaming.md`      |
 | Self Hosting   | `src/content/selfhosting.md`    |
-| Applications   | `src/content/applications.md`   |
+| Torrenting     | `src/content/torrenting.md`     |
 | Miscellaneous  | `src/content/miscellaneous.md`  |
 
 ### Adding a New Page
@@ -108,6 +108,7 @@ Each wiki page maps to a plain Markdown file in `src/content/`:
 1. Create `src/content/mypage.md`
 2. In `src/App.jsx`, add `import mypageMD from './content/mypage.md?raw'` and add `mypage: mypageMD` to the `PAGES` object
 3. In `src/components/Header.jsx`, add `{ key: 'mypage', label: 'My Page' }` to `NAV_ITEMS`
+4. In `src/components/HomePage.jsx`, add `{ key: 'mypage', label: 'My Page', desc: 'Description of Page' }` to `TOPICS`
 
 ---
 

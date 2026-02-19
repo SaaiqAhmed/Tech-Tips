@@ -8,14 +8,14 @@ import WikiPage from './components/WikiPage.jsx'
 /* ── Markdown content imported as raw strings via Vite's ?raw suffix ─────── */
 import streamingMD     from './content/streaming.md?raw'
 import selfhostingMD   from './content/selfhosting.md?raw'
-import applicationsMD  from './content/applications.md?raw'
+import torrentingMD  from './content/torrenting.md?raw'
 import miscellaneousMD from './content/miscellaneous.md?raw'
 
 /* Page registry — maps route key → markdown content */
 const PAGES = {
   streaming:     streamingMD,
   selfhosting:   selfhostingMD,
-  applications:  applicationsMD,
+  torrenting:    torrentingMD,
   miscellaneous: miscellaneousMD,
 }
 

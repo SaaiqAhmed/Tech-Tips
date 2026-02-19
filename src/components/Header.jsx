@@ -4,7 +4,7 @@ import { FONTS } from '../theme.js'
 const NAV_ITEMS = [
   { key: 'streaming',     label: 'Streaming'    },
   { key: 'selfhosting',   label: 'Self Hosting' },
-  { key: 'applications',  label: 'Applications' },
+  { key: 'torrenting',  label: 'Torrenting' },
   { key: 'miscellaneous', label: 'Misc'         },
 ]
 
