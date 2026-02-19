@@ -21,7 +21,7 @@ The alternate method is to use streaming sites like [Cineby](https://www.cineby.
 
 ### Debrid Service
 
-A debrid service like [RealDebrid](https://real-debrid.com/) or [TorBox](https://torbox.app/) is used like a bridge which uses their own high bandwidth servers
+A debrid service like [RealDebrid](https://real-debrid.com/) or [TorBox](https://torbox.app/) is like a bridge which uses their own high bandwidth servers
 to download and cache torrents which then just get directly streamed to you. This service can be easily used alongside Stremio to provide streaming capabilities 
 on par with regular services like Netflix and Disney+. Torrenting requires other users called *seeders* who upload the torrent in chunks which is whats downloaded
 by Stremio to play regularly. The issue with this method is **slow loading times** for larger files like uncompressed 4K movies or older/niche films which don't
@@ -67,5 +67,5 @@ on your TV!
     1. Click the **Cloud** icon on the left
     2. Click the Settings button for the Debrid service you chose and add the API key
     3. Change Poster Service from **RPDB** to **TOP Poster**
-    4. Add API keys for **TOP Poster**, **TMDB Read Access Token**, **TMDB API Key** & **TVDB API Key**
+    4. Scroll down and add API keys for **TOP Poster**, **TMDB Read Access**, **TMDB** & **TVDB**
 9.  

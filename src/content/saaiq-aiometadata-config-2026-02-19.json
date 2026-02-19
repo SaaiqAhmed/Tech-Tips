@@ -1,6 +1,6 @@
 {
   "version": "1.28.1",
-  "exportedAt": "2026-02-18T19:21:54.736Z",
+  "exportedAt": "2026-02-19T00:18:42.606Z",
   "config": {
     "mal": {
       "skipRecap": false,
@@ -53,22 +53,6 @@
       "mdblist": ""
     },
     "catalogs": [
-      {
-        "id": "trakt.recommendations.movies",
-        "name": "Trakt Recommendations",
-        "type": "movie",
-        "source": "trakt",
-        "enabled": true,
-        "showInHome": true
-      },
-      {
-        "id": "trakt.recommendations.shows",
-        "name": "Trakt Recommendations",
-        "type": "series",
-        "source": "trakt",
-        "enabled": true,
-        "showInHome": true
-      },
       {
         "id": "tmdb.top",
         "name": "TMDB Popular",
@@ -595,7 +579,7 @@
     "ageRating": "None",
     "castCount": 10,
     "providers": {
-      "anime": "tvdb",
+      "anime": "kitsu",
       "movie": "tmdb",
       "series": "tvdb",
       "anime_id_provider": "kitsu",
@@ -636,8 +620,8 @@
       "englishArtOnly": false
     },
     "includeAdult": false,
-    "lastModified": 1770829018764,
-    "configVersion": 1770829018765,
+    "lastModified": 1771442547943,
+    "configVersion": 1771442547944,
     "searchEnabled": true,
     "tvdbSeasonType": "default",
     "usePosterProxy": true,
@@ -655,7 +639,7 @@
   },
   "metadata": {
     "apiKeysExcluded": true,
-    "totalCatalogs": 51,
-    "enabledCatalogs": 20
+    "totalCatalogs": 49,
+    "enabledCatalogs": 18
   }
 }

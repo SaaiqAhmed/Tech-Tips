@@ -62,7 +62,7 @@ npm  -v   # should print 9.x.x or higher
 
 ```bash
 # If you have it as a zip, unzip it first, then:
-cd saaiq-tech-tips
+cd Tech-Tips
 ```
 
 ### 2 — Install dependencies
@@ -116,24 +116,6 @@ Each wiki page maps to a plain Markdown file in `src/content/`:
 Open `src/theme.js`. Every colour is defined in the `THEME.dark` and `THEME.light` objects. Edit values there — no hunting through component files.
 
 Font families are defined in the `FONTS` constant at the bottom of the same file.
-
----
-
-## Production Build
-
-```bash
-npm run build
-```
-
-Output goes to `dist/`. Serve it with any static host:
-
-```bash
-# Preview the production build locally
-npm run preview
-
-# Deploy to e.g. Cloudflare Pages, Netlify, or Vercel
-# Just point the build command to `npm run build` and publish dir to `dist`
-```
 
 ---
 
