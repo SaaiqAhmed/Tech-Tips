@@ -1,13 +1,21 @@
-# Terminology Glossary
+## Terminology Glossary
+Here is a list of terms that are useful to know when choosing which version of a movie you want to watch.
+
 | Term | Definition |
 |:----:|------------|
 |REMUX|The highest quality uncompressed video and audio of a video|
 |Bitrate| The exact level of detail of a video (Higher is better)|
 |H264| An older form of video compression thats worse and results in larger files|
 |H265/HEVC| Latest video compression algorithm with the best balance of quality and file size|
-|HDR| Provides a wider range of colours both brighter and darker. Requires a HDR compatible device|  
+|HDR| Provides a wider range of colours both brighter and darker. Requires a HDR compatible device|
+|WEB-DL| Downloaded usually from a streaming service|
+|BluRay| Downloaded from a Bluray disc|
+
+If you don't use a Debrid service then its best to not stream REMUX movies.
 
 # Streaming Guide (Stremio)
+
+![Stremio Home Page](https://github.com/SaaiqAhmed/Tech-Tips/blob/main/src/images/stremio-home.jpg?raw=true)
 
 The best way to stream movies and TV shows for free currently is using the app [Stremio](https://www.stremio.com/).
 The alternate method is to use streaming sites like [Cineby](https://www.cineby.gd/) but they don't offer as much customisability and features as Stremio does.
@@ -16,6 +24,7 @@ The alternate method is to use streaming sites like [Cineby](https://www.cineby.
 - ✅ Highest Quality Streams (REMUX streams)
 - ✅ HDR10+ Support
 - ✅ AndroidTV & WebOS Support
+- ✅ Complete Catalogue of Almost All Movies & Shows
 - ❌ Requires Fast Internet (50mbps+ 1080p | 100mbps+ 4K)
 - 🟧 Optional Debrid Subscription For Faster Loading (explained below)
 
@@ -60,12 +69,26 @@ on your TV!
         2. [TVDB API Sign Up](https://www.thetvdb.com/api-information/signup)
         3. [TOP Posters API](https://api.top-streaming.stream/user/dashboard)
         4. [Gemini Free API](https://aistudio.google.com/api-keys) (Should be under the Project **Default Gemini Project**)
-5. Download the [Config file](https://github.com/SaaiqAhmed/Tech-Tips/blob/main/src/content/saaiq-aiostreams-config-02-2026.json) 
+5. Download the [AIOStreams Config file](https://github.com/SaaiqAhmed/Tech-Tips/blob/main/src/content/saaiq-aiostreams-config-2026-02-19.11-18-56.json) 
 6. Now head over to [AIOStreams](https://aiostreamsfortheweebsstable.midnightignite.me/stremio/configure) and select **Advanced** mode
-7. Click the **Save** icon on the left >> Click Import >> Import the config file
+7. Click the **Save** icon on the left >> Click Import >> Import the downloaded config file
 8. **[Adding Services to AIOStreams]**
     1. Click the **Cloud** icon on the left
     2. Click the Settings button for the Debrid service you chose and add the API key
     3. Change Poster Service from **RPDB** to **TOP Poster**
     4. Scroll down and add API keys for **TOP Poster**, **TMDB Read Access**, **TMDB** & **TVDB**
-9.  
+9. Go Back to the **Save** icon and create a password (Make sure to remember or save it somewhere safe, it is important if you want to make changes)
+10. Click Install to add it to your Stremio account
+11. **[AIOMetadata Setup]**
+    1. Download the [AIOMetadata Config file](https://github.com/SaaiqAhmed/Tech-Tips/blob/main/src/content/saaiq-aiometadata-config-2026-02-19.json) 
+    2. Now go to [AIOMetadata](https://aiometadata.viren070.me/configure/)
+    3. Click on the **Configuration** tab >> Click **Import Configuration** >> Import the downloaded config file
+    4. Click on the **Integrations** tab >> Select **TOP Posters API** for "Poster Rating Provider" >> Add all required API keys
+    5. Go back to the **Configuration** tab >> Click **Save Configuration** >> Click the install button
+12. **[Remove Cinemata]**
+    1. Go to [CineBye](https://cinebye.elfhosted.com/) and login to your Stremio account
+    2. Make sure **Section 2 - Options** removes all Cinemata
+    3. Scroll down to **Manage Addons** and drag AIOMetadata to the top and AIOStreams 2nd
+    4. Go to **Section 3 - Sync Addons** and just click the sync button
+
+Congratulations 🎉🎉🎉 you have now completed setting up Stremio entirely. Hope you enjoy!
