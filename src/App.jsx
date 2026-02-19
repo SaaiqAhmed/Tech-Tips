@@ -9,6 +9,7 @@ import WikiPage from './components/WikiPage.jsx'
 import streamingMD     from './content/streaming.md?raw'
 import selfhostingMD   from './content/selfhosting.md?raw'
 import torrentingMD  from './content/torrenting.md?raw'
+import computerMD  from './content/computer.md?raw'
 import miscellaneousMD from './content/miscellaneous.md?raw'
 
 /* Page registry — maps route key → markdown content */
@@ -16,6 +17,7 @@ const PAGES = {
   streaming:     streamingMD,
   selfhosting:   selfhostingMD,
   torrenting:    torrentingMD,
+  computer:    computerMD,
   miscellaneous: miscellaneousMD,
 }
 

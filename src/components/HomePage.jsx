@@ -5,6 +5,7 @@ const TOPICS = [
   { key: 'streaming', label: '📺 Streaming', desc: 'Setup streaming movies & shows' },
   { key: 'selfhosting', label: '🖥 Self Hosting', desc: 'Run your own services' },
   { key: 'torrenting',  label: '🛠 Torrenting', desc: 'All the tips & tools to start torrenting' },
+  { key: 'computer',  label: '💻 Computer Setup', desc: 'Guide & Apps to setup your computer' },
   { key: 'miscellaneous', label: '🧩 Miscellaneous', desc: 'Tips, tricks & one-liners' },
 ]
 
@@ -72,7 +73,8 @@ export default function HomePage({ setPage, dark, t }) {
             animationFillMode: 'forwards',
           }}
         >
-          A curated wiki of streaming, self-hosting, applications & more.
+          A curated wiki of what Saaiq has found most useful to share.<br/>
+          More detailed information can be found on <a href="https://fmhy.net/">FMHY</a>
         </p>
 
         {/* Navigation cards — stagger-animated upward */}

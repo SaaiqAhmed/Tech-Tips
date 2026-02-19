@@ -5,7 +5,8 @@ const NAV_ITEMS = [
   { key: 'streaming',     label: 'Streaming'    },
   { key: 'selfhosting',   label: 'Self Hosting' },
   { key: 'torrenting',  label: 'Torrenting' },
-  { key: 'miscellaneous', label: 'Misc'         },
+  { key: 'computer',  label: 'Computer Setup' },
+  { key: 'miscellaneous', label: 'Misc' },
 ]
 
 /**
