@@ -55,16 +55,9 @@ export function parseInlineMD(text) {
 
 /* ─── Nested list helpers ──────────────────────────────────────────────────
    buildListTree converts a flat array of raw list lines into a nested tree.
-
    Each node: { text: string, isOl: boolean, children: node[] }
-
-   Nesting is determined by leading whitespace — more spaces = deeper level.
-   A stack tracks the current ancestry; when a line is more indented than the
-   top of the stack, it becomes a child of the last item; when it is less
-   indented we pop back up to the right parent.
 ──────────────────────────────────────────────────────────────────────── */
 function buildListTree(lines) {
-  /* Convert raw lines to structured entries, ignoring non-list lines */
   const entries = []
   for (const line of lines) {
     const ulM = line.match(/^(\s*)([-*])\s+(.+)/)
@@ -75,17 +68,13 @@ function buildListTree(lines) {
 
   if (!entries.length) return []
 
-  /* Virtual root node — its children are the top-level list items */
-  const root = { children: [] }
-  /* Stack entries: { node, indent }  — root sits at indent -1 */
+  const root  = { children: [] }
   const stack = [{ node: root, indent: -1 }]
 
   for (const entry of entries) {
-    /* Pop the stack until we find a parent whose indent is less than ours */
     while (stack.length > 1 && stack[stack.length - 1].indent >= entry.indent) {
       stack.pop()
     }
-
     const item = { text: entry.text, isOl: entry.isOl, children: [] }
     stack[stack.length - 1].node.children.push(item)
     stack.push({ node: item, indent: entry.indent })
@@ -97,12 +86,23 @@ function buildListTree(lines) {
 /* ─── Block token types ────────────────────────────────────────────────────
    Possible types: h1, h2, h3, p, blockquote, list, code, image, table
 
-   Lists use a unified 'list' type whose `items` is a nested tree produced
-   by buildListTree.  Each item carries its own `isOl` flag so mixed
-   bullet/numbered nesting renders correctly.
+   'list' blocks carry:
+     items  — nested tree from buildListTree
+     start  — the number the first item was written with in the source.
+              For bullet lists this is always 1 (unused).
+              For ordered lists interrupted by images/blockquotes/etc. this
+              lets the renderer continue from the right number rather than
+              always resetting to 1.
+
+   Continuation detection:
+     After emitting a non-list block we remember the last ordered-list block
+     we saw.  If the very next list block is ordered AND its first item's
+     number is greater than 1 (i.e. the author wrote "3." not "1."), we treat
+     it as a continuation — its CSS counter starts at that number so the
+     rendered sequence stays unbroken.
 ──────────────────────────────────────────────────────────────────────── */
 export function parseBlocksMD(md) {
-  const lines = md.split('\n')
+  const lines  = md.split('\n')
   const blocks = []
   let i = 0
 
@@ -147,13 +147,12 @@ export function parseBlocksMD(md) {
     if (imgm) { blocks.push({ type: 'image', alt: imgm[1], src: imgm[2] }); i++; continue }
 
     /* List (bullet or numbered, any nesting) ----------------------------- */
-    if (line.match(/^([-*]|\d+\.)\s/)) {
+    if (line.match(/^\s*([-*]|\d+\.)\s/)) {
+      /* Read the number the author wrote on this first item */
+      const firstNumM = line.match(/^\s*(\d+)\./)
+      const start     = firstNumM ? parseInt(firstNumM[1], 10) : 1
+
       const listLines = []
-      /*
-        Collect all lines that belong to this list block:
-        - list items at any indent level  (^\s*([-*]|\d+\.)\s)
-        - stop at blank lines or non-list structural lines
-      */
       while (
         i < lines.length &&
         lines[i].trim() !== '' &&
@@ -162,7 +161,7 @@ export function parseBlocksMD(md) {
         listLines.push(lines[i])
         i++
       }
-      blocks.push({ type: 'list', items: buildListTree(listLines) })
+      blocks.push({ type: 'list', start, items: buildListTree(listLines) })
       continue
     }
 
@@ -177,7 +176,7 @@ export function parseBlocksMD(md) {
       !lines[i].match(/^#{1,3}\s/) &&
       !lines[i].match(/^```/) &&
       !lines[i].startsWith('> ') &&
-      !lines[i].match(/^([-*]|\d+\.)\s/) &&
+      !lines[i].match(/^\s*([-*]|\d+\.)\s/) &&
       !lines[i].startsWith('|') &&
       !lines[i].match(/^!/)
     ) { paraLines.push(lines[i]); i++ }

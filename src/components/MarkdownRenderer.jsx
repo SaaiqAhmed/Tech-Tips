@@ -4,50 +4,99 @@ import { FONTS } from '../theme.js'
 import InlineContent from './InlineContent.jsx'
 import CodeBlock from './CodeBlock.jsx'
 
-/* ─── Recursive list renderer ──────────────────────────────────────────────
-   Renders a nested list tree produced by buildListTree in markdown.js.
-
-   Each node: { text, isOl, children[] }
-
-   The wrapper element (<ul> or <ol>) is chosen from the `isOl` flag of the
-   first item in the current group — all siblings at the same level should be
-   the same type, matching standard markdown behaviour.
+/* ─── CSS counter styles for nested ordered lists ──────────────────────────
+   counters() with a "." separator produces "1.", "1.1.", "1.1.1." etc.
+   counter-reset is set via a CSS custom property (--md-start) so the React
+   component can pass through the start number without needing ::before access.
 ──────────────────────────────────────────────────────────────────────── */
-function NestedList({ items, t, depth = 0 }) {
+const _counterStyle = document.createElement('style')
+_counterStyle.textContent = `
+  ol.md-ol {
+    list-style: none;
+    counter-reset: md-item var(--md-start, 0);
+  }
+  ol.md-ol > li {
+    counter-increment: md-item;
+    display: flex;
+    align-items: baseline;
+  }
+  ol.md-ol > li::before {
+    content: counters(md-item, ".") ". ";
+    font-variant-numeric: tabular-nums;
+    font-weight: 500;
+    margin-right: 0.35em;
+    flex-shrink: 0;
+  }
+  ol.md-ol > li > .md-li-body {
+    flex: 1;
+    min-width: 0;
+  }
+`
+document.head.appendChild(_counterStyle)
+
+/* ─── Recursive list renderer ──────────────────────────────────────────────
+   `start` is forwarded to the CSS custom property --md-start as (start - 1)
+   because counter-reset initialises to the value *before* the first increment.
+   So for a list starting at 3, we set --md-start to 2.
+──────────────────────────────────────────────────────────────────────── */
+function NestedList({ items, t, depth = 0, start = 1 }) {
   if (!items || items.length === 0) return null
 
-  const isOl  = items[0].isOl
-  const Tag   = isOl ? 'ol' : 'ul'
+  const isOl = items[0].isOl
 
+  if (isOl) {
+    return (
+      <ol
+        className="md-ol"
+        style={{
+          margin:       depth === 0 ? '0.75rem 0' : '0.3rem 0 0.1rem',
+          paddingLeft:  depth === 0 ? '0.25rem'   : '1rem',
+          lineHeight:   1.8,
+          color:        t.text,
+          /* Pass start - 1 so the first counter-increment lands on `start` */
+          '--md-start': depth === 0 ? start - 1 : 0,
+        }}
+      >
+        {items.map((item, i) => (
+          <li key={i} style={{ marginBottom: item.children.length ? '0.2rem' : '0.15rem', color: t.text }}>
+            <span className="md-li-body">
+              <InlineContent text={item.text} t={t} />
+              {item.children.length > 0 && (
+                <NestedList items={item.children} t={t} depth={depth + 1} />
+              )}
+            </span>
+          </li>
+        ))}
+      </ol>
+    )
+  }
+
+  /* Unordered list */
+  const bulletStyle = depth === 0 ? 'disc' : depth === 1 ? 'circle' : 'square'
   return (
-    <Tag
+    <ul
       style={{
-        margin:     depth === 0 ? '0.75rem 0' : '0.3rem 0 0.1rem',
-        paddingLeft: depth === 0 ? '1.5rem' : '1.25rem',
-        lineHeight: 1.8,
-        color:      t.text,
-        listStyleType: isOl
-          ? (depth === 0 ? 'decimal' : depth === 1 ? 'lower-alpha' : 'lower-roman')
-          : (depth === 0 ? 'disc'    : depth === 1 ? 'circle'      : 'square'),
+        margin:        depth === 0 ? '0.75rem 0' : '0.3rem 0 0.1rem',
+        paddingLeft:   depth === 0 ? '1.5rem'    : '1.25rem',
+        lineHeight:    1.8,
+        color:         t.text,
+        listStyleType: bulletStyle,
       }}
     >
       {items.map((item, i) => (
         <li key={i} style={{ marginBottom: item.children.length ? '0.2rem' : '0.15rem' }}>
           <InlineContent text={item.text} t={t} />
-          {/* Recurse for any nested children */}
           {item.children.length > 0 && (
             <NestedList items={item.children} t={t} depth={depth + 1} />
           )}
         </li>
       ))}
-    </Tag>
+    </ul>
   )
 }
 
 /**
  * Converts a raw markdown string into themed React elements.
- * Handles: H1–H3, paragraphs, blockquotes, nested bullet & ordered lists,
- *          fenced code blocks, responsive tables, and images.
  */
 export default function MarkdownRenderer({ content, t, dark }) {
   const blocks = useMemo(() => parseBlocksMD(content), [content])
@@ -55,20 +104,19 @@ export default function MarkdownRenderer({ content, t, dark }) {
   const renderBlock = (block, idx) => {
     switch (block.type) {
 
-      /* ── Headings ──────────────────────────────────────────────────────── */
       case 'h1':
         return (
           <h1
             key={idx}
             id={slugify(block.content)}
             style={{
-              fontFamily:    FONTS.heading,
-              fontSize:      'clamp(1.7rem, 4vw, 2.3rem)',
-              fontWeight:    800,
-              color:         t.text,
-              margin:        '2rem 0 0.75rem',
-              lineHeight:    1.15,
-              letterSpacing: '-0.01em',
+              fontFamily:      FONTS.heading,
+              fontSize:        'clamp(1.7rem, 4vw, 2.3rem)',
+              fontWeight:      800,
+              color:           t.text,
+              margin:          '2rem 0 0.75rem',
+              lineHeight:      1.15,
+              letterSpacing:   '-0.01em',
               scrollMarginTop: 80,
             }}
           >
@@ -82,14 +130,14 @@ export default function MarkdownRenderer({ content, t, dark }) {
             key={idx}
             id={slugify(block.content)}
             style={{
-              fontFamily:    FONTS.heading,
-              fontSize:      'clamp(1.25rem, 3vw, 1.65rem)',
-              fontWeight:    700,
-              color:         t.text,
-              margin:        '1.75rem 0 0.6rem',
-              borderBottom:  `1px solid ${t.border}`,
-              paddingBottom: '0.4rem',
-              letterSpacing: '-0.005em',
+              fontFamily:      FONTS.heading,
+              fontSize:        'clamp(1.25rem, 3vw, 1.65rem)',
+              fontWeight:      700,
+              color:           t.text,
+              margin:          '1.75rem 0 0.6rem',
+              borderBottom:    `1px solid ${t.border}`,
+              paddingBottom:   '0.4rem',
+              letterSpacing:   '-0.005em',
               scrollMarginTop: 80,
             }}
           >
@@ -103,11 +151,11 @@ export default function MarkdownRenderer({ content, t, dark }) {
             key={idx}
             id={slugify(block.content)}
             style={{
-              fontFamily:    FONTS.heading,
-              fontSize:      'clamp(1rem, 2.5vw, 1.25rem)',
-              fontWeight:    700,
-              color:         t.textMuted,
-              margin:        '1.5rem 0 0.5rem',
+              fontFamily:      FONTS.heading,
+              fontSize:        'clamp(1rem, 2.5vw, 1.25rem)',
+              fontWeight:      700,
+              color:           t.textMuted,
+              margin:          '1.5rem 0 0.5rem',
               scrollMarginTop: 80,
             }}
           >
@@ -115,15 +163,24 @@ export default function MarkdownRenderer({ content, t, dark }) {
           </h3>
         )
 
-      /* ── Paragraph ─────────────────────────────────────────────────────── */
       case 'p':
         return (
-          <p key={idx} style={{ margin: '0.75rem 0', lineHeight: 1.8, color: t.text, textAlign: 'justify' }}>
+          <p
+            key={idx}
+            style={{
+              margin:       '0.75rem 0',
+              lineHeight:   1.8,
+              color:        t.text,
+              textAlign:    'justify',
+              textJustify:  'inter-word',
+              hyphens:      'auto',
+              overflowWrap: 'break-word',
+            }}
+          >
             <InlineContent text={block.content} t={t} />
           </p>
         )
 
-      /* ── Blockquote ────────────────────────────────────────────────────── */
       case 'blockquote':
         return (
           <blockquote
@@ -142,15 +199,13 @@ export default function MarkdownRenderer({ content, t, dark }) {
           </blockquote>
         )
 
-      /* ── Nested list (bullet or numbered, any depth) ───────────────────── */
+      /* Pass the parsed `start` number through to NestedList */
       case 'list':
-        return <NestedList key={idx} items={block.items} t={t} depth={0} />
+        return <NestedList key={idx} items={block.items} t={t} depth={0} start={block.start} />
 
-      /* ── Fenced code block ─────────────────────────────────────────────── */
       case 'code':
         return <CodeBlock key={idx} code={block.content} lang={block.lang} t={t} dark={dark} />
 
-      /* ── Image ─────────────────────────────────────────────────────────── */
       case 'image':
         return (
           <div key={idx} style={{ margin: '1.5rem 0', textAlign: 'center' }}>
@@ -160,14 +215,13 @@ export default function MarkdownRenderer({ content, t, dark }) {
               style={{ maxWidth: '100%', borderRadius: 12, boxShadow: t.shadow }}
             />
             {block.alt && (
-              <p style={{ margin: '0.4rem 0 0', fontSize: '0.8rem', color: t.textMuted, fontStyle: 'italic' }}>
+              <p style={{ margin: '0.4rem 0 0', fontSize: '0.8rem', color: t.textMuted, fontStyle: 'italic', textAlign: 'center' }}>
                 {block.alt}
               </p>
             )}
           </div>
         )
 
-      /* ── Table ─────────────────────────────────────────────────────────── */
       case 'table':
         return (
           <div
@@ -187,13 +241,13 @@ export default function MarkdownRenderer({ content, t, dark }) {
                       <th
                         key={ci}
                         style={{
-                          padding:       '10px 16px',
-                          textAlign:     'left',
-                          borderBottom:  `1px solid ${t.border}`,
-                          color:         t.text,
-                          fontWeight:    600,
-                          fontFamily:    FONTS.body,
-                          whiteSpace:    'nowrap',
+                          padding:      '10px 16px',
+                          textAlign:    'left',
+                          borderBottom: `1px solid ${t.border}`,
+                          color:        t.text,
+                          fontWeight:   600,
+                          fontFamily:   FONTS.body,
+                          whiteSpace:   'nowrap',
                         }}
                       >
                         <InlineContent text={cell} t={t} />
