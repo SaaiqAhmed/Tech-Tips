@@ -84,7 +84,7 @@ function buildListTree(lines) {
 }
 
 /* ─── Block token types ────────────────────────────────────────────────────
-   Possible types: h1, h2, h3, p, blockquote, list, code, image, table
+   Possible types: h1, h2, h3, h4, p, blockquote, list, code, image, table
 
    'list' blocks carry:
      items  — nested tree from buildListTree
@@ -120,7 +120,7 @@ export function parseBlocksMD(md) {
     }
 
     /* ATX headings ------------------------------------------------------- */
-    const hm = line.match(/^(#{1,3})\s+(.+)/)
+    const hm = line.match(/^(#{1,4})\s+(.+)/)
     if (hm) { blocks.push({ type: `h${hm[1].length}`, content: hm[2].trim() }); i++; continue }
 
     /* Blockquote --------------------------------------------------------- */

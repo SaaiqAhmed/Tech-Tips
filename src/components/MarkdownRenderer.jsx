@@ -163,6 +163,24 @@ export default function MarkdownRenderer({ content, t, dark }) {
           </h3>
         )
 
+      case 'h4':
+        return (
+          <h4
+            key={idx}
+            id={slugify(block.content)}
+            style={{
+              fontFamily:      FONTS.heading,
+              fontSize:        'clamp(0.75rem, 2vw, 1.25rem)',
+              fontWeight:      500,
+              color:           t.textMuted,
+              margin:          '1.25rem 0 0.4rem',
+              scrollMarginTop: 80,
+            }}
+          >
+            <InlineContent text={block.content} t={t} />
+          </h4>
+        )
+
       case 'p':
         return (
           <p
