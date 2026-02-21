@@ -1,5 +1,6 @@
 import { useState, useEffect, useRef } from 'react'
 import { FONTS } from '../theme.js'
+import { preloadPage } from '../utils/preload.js'
 
 const NAV_ITEMS = [
   { key: 'streaming',     label: 'Streaming'    },
@@ -18,61 +19,64 @@ const NAV_ITEMS = [
  * Narrow viewport (< 768px):
  *   Logo on the left, hamburger button on the right.
  *   Tapping the hamburger opens a dropdown panel containing all nav
- *   links and the theme toggle. Tapping any link or outside the panel
- *   closes it.
+ *   links and the theme toggle.
+ *
+ * Preloading:
+ *   Hovering any nav link triggers image preloading for that page so
+ *   images are in the browser cache before the user finishes clicking.
+ *   On mobile, focus events trigger the same preload since hover isn't
+ *   reliable on touch devices.
  */
-export default function Header({ currentPage, setPage, dark, setDark, t }) {
+export default function Header({ currentPage, setPage, dark, setDark, t, pages }) {
   const [menuOpen, setMenuOpen] = useState(false)
   const [narrow,   setNarrow]   = useState(window.innerWidth < 768)
   const menuRef                 = useRef(null)
 
-  /* Track viewport width to switch between layouts */
   useEffect(() => {
     const onResize = () => {
       const isNarrow = window.innerWidth < 768
       setNarrow(isNarrow)
-      if (!isNarrow) setMenuOpen(false) // auto-close when expanding wide again
+      if (!isNarrow) setMenuOpen(false)
     }
     window.addEventListener('resize', onResize)
     return () => window.removeEventListener('resize', onResize)
   }, [])
 
-  /* Close the dropdown when clicking outside of it */
   useEffect(() => {
     if (!menuOpen) return
     const onPointerDown = (e) => {
-      if (menuRef.current && !menuRef.current.contains(e.target)) {
-        setMenuOpen(false)
-      }
+      if (menuRef.current && !menuRef.current.contains(e.target)) setMenuOpen(false)
     }
     document.addEventListener('pointerdown', onPointerDown)
     return () => document.removeEventListener('pointerdown', onPointerDown)
   }, [menuOpen])
 
-  /* Navigate and close the mobile menu */
   const navigate = (key) => {
     setPage(key)
     setMenuOpen(false)
   }
 
-  /* ── Shared nav button style ── */
+  /* Trigger image preload on hover/focus — deduped inside preloadPage */
+  const handleNavHover = (key) => {
+    if (pages) preloadPage(key, pages)
+  }
+
   const navBtn = (key) => {
     const active = currentPage === key
     return {
-      background:  active ? t.accentDim : 'transparent',
-      border:      'none',
-      cursor:      'pointer',
+      background:   active ? t.accentDim : 'transparent',
+      border:       'none',
+      cursor:       'pointer',
       borderRadius: 6,
-      fontFamily:  FONTS.body,
-      fontSize:    '0.9rem',
-      fontWeight:  active ? 600 : 400,
-      color:       active ? t.accent : t.textMuted,
-      transition:  'background 0.2s, color 0.2s',
+      fontFamily:   FONTS.body,
+      fontSize:     '0.9rem',
+      fontWeight:   active ? 600 : 400,
+      color:        active ? t.accent : t.textMuted,
+      transition:   'background 0.2s, color 0.2s',
     }
   }
 
   return (
-    /* Wrapper gives the dropdown something to be positioned relative to */
     <div ref={menuRef} style={{ position: 'sticky', top: 0, zIndex: 300 }}>
 
       {/* ── Main header bar ── */}
@@ -93,28 +97,29 @@ export default function Header({ currentPage, setPage, dark, setDark, t }) {
         <button
           onClick={() => navigate('home')}
           style={{
-            background:  'none',
-            border:      'none',
-            cursor:      'pointer',
-            fontFamily:  FONTS.heading,
-            fontWeight:  800,
-            fontSize:    '1.05rem',
-            color:       t.accent,
+            background:    'none',
+            border:        'none',
+            cursor:        'pointer',
+            fontFamily:    FONTS.heading,
+            fontWeight:    800,
+            fontSize:      '1.05rem',
+            color:         t.accent,
             letterSpacing: '-0.01em',
-            padding:     0,
-            flexShrink:  0,
+            padding:       0,
+            flexShrink:    0,
           }}
         >
           Saaiq's Tech Tips
         </button>
 
-        {/* ── Wide layout: inline nav + theme toggle ── */}
+        {/* Wide nav — hover triggers preload */}
         {!narrow && (
           <nav style={{ display: 'flex', gap: '0.25rem' }}>
             {NAV_ITEMS.map(({ key, label }) => (
               <button
                 key={key}
                 onClick={() => navigate(key)}
+                onMouseEnter={() => handleNavHover(key)}
                 className="nav-link"
                 style={{ ...navBtn(key), padding: '6px 12px' }}
               >
@@ -124,7 +129,7 @@ export default function Header({ currentPage, setPage, dark, setDark, t }) {
           </nav>
         )}
 
-        {/* ── Wide: standalone theme toggle / Narrow: hamburger ── */}
+        {/* Wide: theme toggle / Narrow: hamburger */}
         {!narrow ? (
           <button
             onClick={() => setDark(d => !d)}
@@ -165,32 +170,31 @@ export default function Header({ currentPage, setPage, dark, setDark, t }) {
         )}
       </header>
 
-      {/* ── Mobile dropdown panel ── */}
+      {/* ── Mobile dropdown ── */}
       {narrow && (
         <div
           style={{
-            /* Clip the overflow so the slide animation doesn't spill */
-            overflow:  'hidden',
-            maxHeight: menuOpen ? 320 : 0,
-            transition: 'max-height 0.28s cubic-bezier(.4,0,.2,1)',
-            background: t.headerBg,
+            overflow:       'hidden',
+            maxHeight:      menuOpen ? 320 : 0,
+            transition:     'max-height 0.28s cubic-bezier(.4,0,.2,1)',
+            background:     t.headerBg,
             backdropFilter: 'blur(12px)',
-            borderBottom: menuOpen ? `1px solid ${t.border}` : 'none',
+            borderBottom:   menuOpen ? `1px solid ${t.border}` : 'none',
           }}
         >
           <div style={{ padding: '0.5rem 1rem 1rem' }}>
-
-            {/* Nav links — stacked vertically */}
             {NAV_ITEMS.map(({ key, label }) => (
               <button
                 key={key}
                 onClick={() => navigate(key)}
+                onMouseEnter={() => handleNavHover(key)}
+                onFocus={() => handleNavHover(key)}
                 style={{
                   ...navBtn(key),
-                  display: 'block',
-                  width:   '100%',
-                  textAlign: 'left',
-                  padding: '10px 12px',
+                  display:      'block',
+                  width:        '100%',
+                  textAlign:    'left',
+                  padding:      '10px 12px',
                   marginBottom: 2,
                   borderRadius: 8,
                 }}
@@ -199,12 +203,10 @@ export default function Header({ currentPage, setPage, dark, setDark, t }) {
               </button>
             ))}
 
-            {/* Divider */}
             <div style={{ borderTop: `1px solid ${t.border}`, margin: '0.6rem 0' }} />
 
-            {/* Theme toggle row */}
             <button
-              onClick={() => { setDark(d => !d) }}
+              onClick={() => setDark(d => !d)}
               style={{
                 display:      'flex',
                 alignItems:   'center',
