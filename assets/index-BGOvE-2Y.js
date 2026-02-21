@@ -209,13 +209,49 @@ As you might have seen with the utility, the software also allows you to directl
 In the event you are starting a fresh new computer with windows 11 I would recommend installing from here.\r
 \r
 ## Recommended Windows Apps\r
-### Browser (Fire Fox)\r
+All of these apps but Microsoft PC Manager can be installed directly using **WinUtil**\r
+\r
+### Browser (Firefox)\r
+![Firefox Official Site](https://www.firefox.com/media/img/firefox/home/hero-high-res.3a264c17970e.png)\r
 It's one of the most lightweight browsers that doesn't use chromium. Once installed, use the extension\r
 [uBlock Origin](https://addons.mozilla.org/en-US/firefox/addon/ublock-origin/) to effectively block all ads.\r
 \r
 ### Video Player (VLC)\r
+![VLC Wikipedia Page](https://upload.wikimedia.org/wikipedia/commons/f/fd/VLC_3.0.21_on_Debian_-_KDE.png)\r
 VLC is an open source classic that's been around for decades. It can play every video file format and has no \r
-issues with handling high quality videos.`,op=`# Miscellaneous [UNDER CONSTRUCTION]
+issues with handling high quality videos.\r
+\r
+### Archive Manager (WinRAR)\r
+While "technically" not free, winRAR is still one of the most powerful and easy to use tools for extracting and\r
+working with \`.zip\` and \`.rar\` files. It's simply an essential piece of software to have.\r
+\r
+### Password Manager (Bitwarden)\r
+![Bitwarden Web app](https://bitwarden.com/assets/2xTpSA11EOCzx8VIuVffcF/d3bc18e7fc3c3cb0bf1779fad9262cd3/2024-12-02_13-42-14.png?w=1162&fm=jpg)\r
+One of the best free password managers that works across all devices. It's been regularly vetted by 3rd parties\r
+and has always been shown to be secure.\r
+\r
+### Windows Utility Software\r
+\r
+#### Revo Uninstaller\r
+![Revo Uninstaller Official Site](https://f057a20f961f56a72089-b74530d2d26278124f446233f95622ef.ssl.cf1.rackcdn.com/site/screens/revo-uninstaller-free.png)\r
+Windows doesn't always uninstall everything and can leave a lot of junk files for if you ever reinstall a program.\r
+Revo Uninstaller helps remove everything when uninstalling applications.\r
+\r
+#### Microsoft PC Manager\r
+![Microsoft PC Manager Official Page](https://store-images.s-microsoft.com/image/apps.48621.14298090620665013.083d4ab3-27dc-4677-bf79-e2e8eec57e66.a1547b7e-4db6-4121-8f18-d2f6479ebd1c)\r
+A Microsoft developed application that can help clean up junk files across your computer to help boost performance.\r
+You can install it straight from the [Microsoft Store](https://apps.microsoft.com/detail/9PM860492SZD?hl=en-us&gl=AU&ocid=pdpshare).\r
+\r
+## Recommended Gaming PC Apps\r
+\r
+### Overclocking Tool (MSI Afterburner)\r
+![MSI Afterburner Main Screen](https://storage-asset.msi.com/event/2020/vga/AfterburnerNew/image/afbr.jpg)\r
+Most popular and reliable overclocking tool for all GPU's.\r
+\r
+### Diagnostics Tool (HWiNFO)\r
+![HWiNFO Official Site](https://www.hwinfo.com/wp-content/uploads/2018/10/hwinfo-screen-1024x728.jpg)\r
+Powerful lightweight tool to get live diagnostics of all your PC hardware. You can check usage in detail\r
+and most importantly the temperatures of all your hardware to make sure everything is running properly.`,op=`# Miscellaneous [UNDER CONSTRUCTION]
 `,ip={streaming:tp,selfhosting:np,torrenting:rp,computer:lp,miscellaneous:op};function up(){const[e,t]=O.useState(!0),[n,r]=O.useState("home"),l=e?Ku.dark:Ku.light;O.useEffect(()=>{window.scrollTo({top:0,behavior:"smooth"})},[n]);const o=()=>{if(n==="home")return g.jsx($f,{setPage:r,dark:e,t:l});const i=ip[n];return i?g.jsx(ep,{content:i,t:l,dark:e}):null};return g.jsxs("div",{style:{background:l.bg,color:l.text,minHeight:"100vh",transition:"background 0.3s, color 0.3s",fontFamily:V.body},children:[g.jsx(Bf,{currentPage:n,setPage:r,dark:e,setDark:t,t:l}),g.jsx("div",{className:"page-enter",children:o()},n),g.jsx(Uf,{t:l})]})}const cc=document.createElement("style");cc.textContent=`
   *, *::before, *::after { box-sizing: border-box; }
   html { scroll-behavior: smooth; }
