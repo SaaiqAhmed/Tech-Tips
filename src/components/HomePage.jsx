@@ -3,10 +3,10 @@ import { preloadPage } from '../utils/preload.js'
 import AnimatedBackground from './AnimatedBackground.jsx'
 
 const TOPICS = [
-  { key: 'streaming', label: '📺 Streaming', desc: 'Setup streaming movies & shows' },
-  { key: 'selfhosting', label: '🖥 Self Hosting', desc: 'Run your own services' },
+  { key: 'streaming', label: '📺 Streaming', desc: 'Setup streaming movies, shows & live TV' },
+  { key: 'selfhosting', label: '🖥 Self Hosting', desc: 'Setting up your own server' },
   { key: 'torrenting',  label: '🛠 Torrenting', desc: 'All the tips & tools to start torrenting' },
-  { key: 'computer',  label: '💻 Computer Setup', desc: 'Guide & Apps to setup your computer' },
+  { key: 'computer',  label: '💻 Device Setups', desc: 'Guide & Apps to setup all your devices' },
   { key: 'miscellaneous', label: '🧩 Miscellaneous', desc: 'Tips, tricks & one-liners' },
 ]
 
