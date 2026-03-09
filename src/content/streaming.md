@@ -92,3 +92,26 @@ on your TV!
     4. Go to **Section 3 - Sync Addons** and just click the sync button
 
 Congratulations 🎉🎉🎉 you have now completed setting up Stremio entirely. Hope you enjoy!
+
+# Sports / Live TV Streaming
+While there are many websites to watch sports streams (that you can find at [FMHY](https://fmhy.net/video#live-sports)), they typically come with a lot of buffering, complicated TV support and bad mobile experience. While there is no free method that works well, you can pay for either [Strong 8K](https://strongtv8k.net/) or [TRex](https://trex-server.com/) as an IPTV service to get premium (up to 4K) live TV streams compatible with all devices. 
+
+I would recommend [TRex](https://trex-server.com/) as it is cheaper with a smaller lock in contract while also having options for up to 4 devices. The cheapest plan is **€25 for 6 months** for 1 device, which means you can only have up to 1 device streaming live TV at once. This is great if you want to just use it yourself but if you want to use it with family or friends you can get up to 4 devices for **€75 for 6 months**.
+
+## Obtaining the IPTV Service
+1. Go to [TRex](https://trex-server.com/) (or [Strong 8K](https://strongtv8k.net/) if you like their options) and either start their 24 hour free trial to get a taste or pay for the subscription.
+2. When checking out make sure to include the email you want the IPTV details to be sent to
+3. Once you've paid make sure to keep the details emailed to you safe. You will need either an **m3u link** or **Xstream code**.
+
+## Getting an IPTV Player
+- [Windows / MacOS / Linux (IPTVNator)](https://4gray.github.io/iptvnator/)
+- [Android / Android TV (Tivi Mate)](https://tivimate.com/)
+    - Does require a US$40 fee for access to all features but isn't required
+
+Once installed, choose Xstream (m3u link works too) and add the required details.
+- **XStream:** `URL` `Username` `Password`
+- **m3u Link:** URL link ending in `.m3u` but is typically longer to type on a TV
+
+And now you're done! 🎉🎉🎉 you should have access to thousands of channels, just browse through the different sections to find the sports streams or tv channels you want. 
+
+For a rough cost of **US$33/yr** for **TorBox** and **€50/yr** for **TRex**. Which is roughly **A$130/yr** (cheaper than Netflix), you get to stream 4K movies, shows and live TV at the best possible speeds (Recommend 100mbps+ internet speeds for little buffering).
